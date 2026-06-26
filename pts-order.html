@@ -34,8 +34,6 @@ body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; color: #1a1a1a; 
 .order-btn { background: #e8b84b; color: #1a1a1a; border: none; border-radius: 12px; padding: 12px 24px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Sarabun', sans-serif; white-space: nowrap; }
 .order-btn:active { opacity: 0.85; }
 .bottom-space { height: 100px; }
-
-/* Modal shared */
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; }
 .modal-bg.show { display: flex; }
 .modal { background: #fff; border-radius: 20px 20px 0 0; padding: 20px; width: 100%; max-height: 85vh; overflow-y: auto; }
@@ -48,33 +46,27 @@ body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; color: #1a1a1a; 
 .confirm-btn { background: #1a1a1a; color: #fff; border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Sarabun', sans-serif; margin-top: 12px; }
 .cancel-btn { background: #f0f0f0; color: #333; border: none; border-radius: 12px; padding: 12px; width: 100%; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Sarabun', sans-serif; margin-top: 8px; }
 .pay-btn { background: #e8b84b; color: #1a1a1a; border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Sarabun', sans-serif; margin-top: 12px; }
-
-/* History section */
-.history-section { margin: 16px 16px 0; background: #fff; border-radius: 14px; overflow: hidden; }
-.history-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; }
-.history-header span { font-size: 15px; font-weight: 700; }
-.history-badge { background: #e8b84b; color: #1a1a1a; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
-.history-empty { padding: 20px 16px; font-size: 14px; color: #aaa; text-align: center; }
 .history-round { border-bottom: 1px solid #f5f5f0; padding: 10px 16px; }
 .history-round:last-child { border-bottom: none; }
 .history-round-header { font-size: 12px; color: #aaa; margin-bottom: 6px; }
 .history-round-item { display: flex; justify-content: space-between; font-size: 14px; padding: 2px 0; }
 .history-round-total { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: #e8b84b; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #eee; }
-.history-grand { display: flex; justify-content: space-between; padding: 14px 16px; font-size: 16px; font-weight: 700; background: #f5f5f0; }
-.pay-strip { margin: 12px 16px 0; }
-.pay-strip-btn { background: #e8b84b; color: #1a1a1a; border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Sarabun', sans-serif; }
+.history-empty { padding: 20px 16px; font-size: 14px; color: #aaa; text-align: center; }
 
-/* Success */
-.success-screen { display: none; position: fixed; inset: 0; background: #fff; z-index: 300; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
-.success-screen.show { display: flex; }
-.success-icon { font-size: 72px; margin-bottom: 16px; }
-.success-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-.success-sub { font-size: 15px; color: #888; line-height: 1.6; }
-.new-order-btn { margin-top: 32px; background: #1a1a1a; color: #fff; border: none; border-radius: 12px; padding: 14px 32px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Sarabun', sans-serif; }
+/* Notification overlay */
+.notify-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 40px; }
+.notify-overlay.show { display: flex; }
+.notify-icon { font-size: 80px; margin-bottom: 20px; }
+.notify-title { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.notify-sub { font-size: 16px; color: #ddd; line-height: 1.6; }
 
-/* Pay success */
-.pay-success-screen { display: none; position: fixed; inset: 0; background: #fff; z-index: 300; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
-.pay-success-screen.show { display: flex; }
+/* Lock overlay */
+.lock-overlay { display: none; position: fixed; inset: 0; background: #1a1a1a; z-index: 400; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+.lock-overlay.show { display: flex; }
+.lock-icon { font-size: 80px; margin-bottom: 20px; }
+.lock-title { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.lock-sub { font-size: 15px; color: #aaa; line-height: 1.6; }
+.lock-total { font-size: 28px; font-weight: 700; color: #e8b84b; margin-top: 20px; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
@@ -93,10 +85,8 @@ body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; color: #1a1a1a; 
 
 <p class="section-title">🥩 สเต็ก</p>
 <div class="menu-list" id="steak-list"></div>
-
 <p class="section-title">🥤 เครื่องดื่ม</p>
 <div class="menu-list" id="drink-list"></div>
-
 <div class="bottom-space"></div>
 
 <div class="cart-bar" id="cart-bar">
@@ -113,10 +103,7 @@ body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; color: #1a1a1a; 
     <div class="modal-title">ยืนยันออเดอร์</div>
     <div class="modal-sub" id="modal-sub"></div>
     <div class="order-list" id="modal-items"></div>
-    <div class="order-total">
-      <span>รวมทั้งหมด</span>
-      <span id="modal-total"></span>
-    </div>
+    <div class="order-total"><span>รวมทั้งหมด</span><span id="modal-total"></span></div>
     <button class="confirm-btn" id="confirm-btn" onclick="submitOrder()">✅ ส่งออเดอร์ไปครัว</button>
     <button class="cancel-btn" onclick="closeModal()">แก้ไขออเดอร์</button>
   </div>
@@ -146,24 +133,32 @@ body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; color: #1a1a1a; 
   </div>
 </div>
 
-<!-- หน้าส่งออเดอร์สำเร็จ -->
-<div class="success-screen" id="success-screen">
-  <div class="success-icon">✅</div>
-  <div class="success-title">ส่งออเดอร์แล้ว!</div>
-  <div class="success-sub">ครัวได้รับออเดอร์ของคุณแล้ว<br>กรุณารอสักครู่นะคะ 🙏</div>
-  <button class="new-order-btn" onclick="resetOrder()">+ สั่งเพิ่ม</button>
+<!-- Notification: ครัวรับทราบออเดอร์ -->
+<div class="notify-overlay" id="notify-confirmed">
+  <div class="notify-icon">👨‍🍳</div>
+  <div class="notify-title">ครัวรับทราบออเดอร์แล้ว!</div>
+  <div class="notify-sub">กำลังทำอาหารให้นะคะ<br>กรุณารอสักครู่ 🙏</div>
 </div>
 
-<!-- หน้าแจ้งชำระเงินสำเร็จ -->
-<div class="pay-success-screen" id="pay-success-screen">
-  <div class="success-icon">🔔</div>
-  <div class="success-title">แจ้งพนักงานแล้ว!</div>
-  <div class="success-sub" id="pay-success-sub">พนักงานกำลังเดินทางมาเก็บเงิน<br>ขอบคุณที่ใช้บริการนะคะ 🙏</div>
-  <button class="new-order-btn" style="background:#e8b84b;color:#1a1a1a" onclick="document.getElementById('pay-success-screen').classList.remove('show')">กลับหน้าเมนู</button>
+<!-- Notification: พนักงานกำลังมาเก็บเงิน -->
+<div class="notify-overlay" id="notify-payment">
+  <div class="notify-icon">🏃</div>
+  <div class="notify-title">พนักงานกำลังมาเก็บเงิน!</div>
+  <div class="notify-sub" id="notify-payment-sub">กรุณารอสักครู่นะคะ 🙏</div>
+</div>
+
+<!-- Lock: หลังชำระเงินแล้ว ล็อคหน้าจอ -->
+<div class="lock-overlay" id="lock-overlay">
+  <div class="lock-icon">✅</div>
+  <div class="lock-title">ชำระเงินเรียบร้อยแล้ว!</div>
+  <div class="lock-sub">ขอบคุณที่ใช้บริการพุงโตสเต็ก<br>แวะมาอีกนะคะ 😊</div>
+  <div class="lock-total" id="lock-total"></div>
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHFEAfVmM64YrItbrdhYjGlIbvMg4Rx87jX3EMlJuctQQkDGnYGfo96UXBX6q4DRWzkw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxD_jQx4b9vRRcvqDkdFsZqQVfqFJ6ewjJxKHgAOZ5rNp5DvK2L6qAwjWJSv7W4h7EegA/exec';
+const SHEET_ID = '1tjByC21hdbwiTfM3jCxXya7SQ85WYISaB9JZYZNUzfM';
+const API_KEY = ''; // ← ใส่ Google API Key ถ้ามี (ถ้าไม่มีใช้ Apps Script polling แทน)
 
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
@@ -184,9 +179,10 @@ const MENU = {
 };
 
 const qty = {};
-// เก็บประวัติการสั่งแต่ละรอบ [{round, time, items, total}]
 let orderHistory = [];
 let orderRound = 0;
+let currentStatus = '';
+let pollingInterval = null;
 
 function renderMenu(items, containerId) {
   const el = document.getElementById(containerId);
@@ -208,7 +204,6 @@ function renderMenu(items, containerId) {
 
 renderMenu(MENU.steak, 'steak-list');
 renderMenu(MENU.drink, 'drink-list');
-
 const allItems = [...MENU.steak, ...MENU.drink];
 
 function changeQty(id, delta) {
@@ -241,10 +236,7 @@ function showModal() {
   document.getElementById('modal-total').textContent = total.toLocaleString() + ' ฿';
   document.getElementById('modal-bg').classList.add('show');
 }
-
-function closeModal() {
-  document.getElementById('modal-bg').classList.remove('show');
-}
+function closeModal() { document.getElementById('modal-bg').classList.remove('show'); }
 
 function buildHistoryHTML(history) {
   if (history.length === 0) return '<div class="history-empty">ยังไม่มีรายการที่สั่ง</div>';
@@ -256,116 +248,136 @@ function buildHistoryHTML(history) {
     </div>
   `).join('');
 }
-
-function grandTotal() {
-  return orderHistory.reduce((s, r) => s + r.total, 0);
-}
+function grandTotal() { return orderHistory.reduce((s, r) => s + r.total, 0); }
 
 function showHistory() {
   document.getElementById('history-modal-sub').textContent = 'โต๊ะ ' + tableNum;
   document.getElementById('history-modal-content').innerHTML = buildHistoryHTML(orderHistory);
   const gt = grandTotal();
   document.getElementById('history-grand-total').innerHTML = gt > 0
-    ? `<span>ยอดรวมทั้งหมด</span><span style="color:#e8b84b">${gt.toLocaleString()} ฿</span>`
-    : '';
+    ? `<span>ยอดรวมทั้งหมด</span><span style="color:#e8b84b">${gt.toLocaleString()} ฿</span>` : '';
   document.getElementById('history-modal-bg').classList.add('show');
 }
-
-function closeHistory() {
-  document.getElementById('history-modal-bg').classList.remove('show');
-}
+function closeHistory() { document.getElementById('history-modal-bg').classList.remove('show'); }
 
 function showPayModal() {
-  if (orderHistory.length === 0) {
-    alert('ยังไม่มีรายการที่สั่ง กรุณาสั่งอาหารก่อนนะคะ');
-    return;
-  }
+  if (orderHistory.length === 0) { alert('ยังไม่มีรายการที่สั่ง กรุณาสั่งอาหารก่อนนะคะ'); return; }
   document.getElementById('pay-modal-sub').textContent = 'โต๊ะ ' + tableNum + ' · สรุปรายการทั้งหมด';
   document.getElementById('pay-modal-content').innerHTML = buildHistoryHTML(orderHistory);
   const gt = grandTotal();
   document.getElementById('pay-grand-total').innerHTML = `<span>ยอดรวมทั้งหมด</span><span style="color:#e8b84b">${gt.toLocaleString()} ฿</span>`;
   document.getElementById('pay-modal-bg').classList.add('show');
 }
-
-function closePayModal() {
-  document.getElementById('pay-modal-bg').classList.remove('show');
-}
+function closePayModal() { document.getElementById('pay-modal-bg').classList.remove('show'); }
 
 async function submitOrder() {
   const btn = document.getElementById('confirm-btn');
   btn.textContent = 'กำลังส่ง...';
   btn.disabled = true;
-
-  const items = allItems.filter(i => qty[i.id] > 0).map(i => ({
-    name: i.name, qty: qty[i.id], price: i.price
-  }));
+  const items = allItems.filter(i => qty[i.id] > 0).map(i => ({ name: i.name, qty: qty[i.id], price: i.price }));
   const total = items.reduce((s, i) => s + i.qty * i.price, 0);
   const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
-
   try {
     await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ table: tableNum, items, total, type: 'order' })
     });
-
-    // บันทึกประวัติ
     orderRound++;
     orderHistory.push({ round: orderRound, time: now, items, total });
-
     closeModal();
-    document.getElementById('success-screen').classList.add('show');
-
-    btn.textContent = '✅ ส่งออเดอร์ไปครัว';
-    btn.disabled = false;
-  } catch(e) {
-    btn.textContent = '✅ ส่งออเดอร์ไปครัว';
-    btn.disabled = false;
-    alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
-  }
+    // reset qty
+    allItems.forEach(i => { qty[i.id] = 0; const el = document.getElementById('qty-' + i.id); if(el) el.textContent = 0; });
+    updateCart();
+    // เริ่ม polling รอ confirmed
+    startPolling();
+  } catch(e) { alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); }
+  btn.textContent = '✅ ส่งออเดอร์ไปครัว';
+  btn.disabled = false;
 }
 
 async function submitPayment() {
   const btn = document.getElementById('pay-confirm-btn');
   btn.textContent = 'กำลังแจ้ง...';
   btn.disabled = true;
-
   const gt = grandTotal();
-  const allOrderedItems = orderHistory.flatMap(r => r.items.map(i => ({...i, round: r.round})));
-
   const summaryLines = orderHistory.map(r =>
     `รอบ ${r.round}: ` + r.items.map(i => `${i.name} x${i.qty}`).join(', ') + ` (${r.total.toLocaleString()}฿)`
   ).join('\n');
-
   const msg = `💳 *ขอชำระเงิน!*\n\n📍 โต๊ะ ${tableNum}\n\n${summaryLines}\n\n💰 *ยอดรวมทั้งหมด ${gt.toLocaleString()}฿*\n\n👋 กรุณาส่งพนักงานไปเก็บเงินด้วยค่ะ`;
-
   try {
     await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ table: tableNum, total: gt, type: 'payment', message: msg })
     });
-
     closePayModal();
-    document.getElementById('pay-success-sub').textContent = `ยอดรวม ${gt.toLocaleString()} ฿\nพนักงานกำลังเดินทางมาเก็บเงิน 🙏`;
-    document.getElementById('pay-success-screen').classList.add('show');
-
-    btn.textContent = '🔔 แจ้งพนักงานมาเก็บเงิน';
-    btn.disabled = false;
-  } catch(e) {
-    btn.textContent = '🔔 แจ้งพนักงานมาเก็บเงิน';
-    btn.disabled = false;
-    alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
-  }
+    // ล็อคหน้าจอ รอพนักงานมาเก็บเงิน
+    document.getElementById('lock-total').textContent = 'ยอดรวม ' + gt.toLocaleString() + ' ฿';
+    document.getElementById('lock-overlay').classList.add('show');
+    document.getElementById('lock-overlay').querySelector('.lock-icon').textContent = '⏳';
+    document.getElementById('lock-overlay').querySelector('.lock-title').textContent = 'รอพนักงานมาเก็บเงิน...';
+    document.getElementById('lock-overlay').querySelector('.lock-sub').textContent = 'กรุณารอสักครู่นะคะ 🙏';
+    startPolling();
+  } catch(e) { alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); }
+  btn.textContent = '🔔 แจ้งพนักงานมาเก็บเงิน';
+  btn.disabled = false;
 }
 
-function resetOrder() {
-  allItems.forEach(i => { qty[i.id] = 0; const el = document.getElementById('qty-' + i.id); if(el) el.textContent = 0; });
-  document.getElementById('success-screen').classList.remove('show');
-  document.getElementById('cart-bar').classList.remove('show');
+// ── Polling ──────────────────────────────────────
+function startPolling() {
+  if (pollingInterval) return;
+  pollingInterval = setInterval(checkStatus, 5000);
 }
+
+function stopPolling() {
+  if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
+}
+
+async function checkStatus() {
+  try {
+    const url = `https://script.google.com/macros/s/AKfycbxD_jQx4b9vRRcvqDkdFsZqQVfqFJ6ewjJxKHgAOZ5rNp5DvK2L6qAwjWJSv7W4h7EegA/exec?action=status&table=${tableNum}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const status = data.status;
+
+    if (status === currentStatus) return;
+    currentStatus = status;
+
+    if (status === 'confirmed') {
+      // ครัวรับทราบออเดอร์
+      showNotify('notify-confirmed');
+      setTimeout(() => hideNotify('notify-confirmed'), 4000);
+
+    } else if (status === 'paid') {
+      // ชำระเงินแล้ว → ล็อคหน้าจอสวย
+      stopPolling();
+      hideNotify('notify-confirmed');
+      hideNotify('notify-payment');
+      const lockEl = document.getElementById('lock-overlay');
+      lockEl.querySelector('.lock-icon').textContent = '✅';
+      lockEl.querySelector('.lock-title').textContent = 'ชำระเงินเรียบร้อยแล้ว!';
+      lockEl.querySelector('.lock-sub').textContent = 'ขอบคุณที่ใช้บริการพุงโตสเต็ก\nแวะมาอีกนะคะ 😊';
+      lockEl.classList.add('show');
+
+    } else if (status === 'payment_requested') {
+      // พนักงานรับทราบแล้วกำลังมา
+      const payType = data.payment_type || '';
+      document.getElementById('notify-payment-sub').textContent = payType
+        ? `พนักงานกำลังมาเก็บเงิน (${payType})\nกรุณารอสักครู่นะคะ 🙏`
+        : 'พนักงานกำลังมาเก็บเงิน 🙏';
+      showNotify('notify-payment');
+
+    } else if (status === 'reset') {
+      // Reset โต๊ะ → รีเฟรชหน้าใหม่
+      stopPolling();
+      location.reload();
+    }
+  } catch(e) { /* silent fail */ }
+}
+
+function showNotify(id) { document.getElementById(id).classList.add('show'); }
+function hideNotify(id) { document.getElementById(id).classList.remove('show'); }
 </script>
 </body>
 </html>
