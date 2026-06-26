@@ -156,7 +156,7 @@ body { font-family: 'Sarabun', sans-serif; background: #f5f5f0; color: #1a1a1a; 
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3-xZYVytO2BZkTZp4q1-D9fE46PD5SRfU8oxJW8LkvkKETyUiQqlEPmsVLdMB9GFkbg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz2d73pmW7xvCih5t2gDBab9Lk3qTOEG1f07WoXrqNTBHEzymh2YxbhHS9wifBtqv2ckw/exec';
 const SHEET_ID = '1tjByC21hdbwiTfM3jCxXya7SQ85WYISaB9JZYZNUzfM';
 const API_KEY = ''; // ← ใส่ Google API Key ถ้ามี (ถ้าไม่มีใช้ Apps Script polling แทน)
 
@@ -336,7 +336,7 @@ function stopPolling() {
 
 async function checkStatus() {
   try {
-    const url = `https://script.google.com/macros/s/AKfycbx3-xZYVytO2BZkTZp4q1-D9fE46PD5SRfU8oxJW8LkvkKETyUiQqlEPmsVLdMB9GFkbg/exec?action=status&table=${tableNum}`;
+    const url = `https://script.google.com/macros/s/AKfycbz2d73pmW7xvCih5t2gDBab9Lk3qTOEG1f07WoXrqNTBHEzymh2YxbhHS9wifBtqv2ckw/exec?action=status&table=${tableNum}`;
     const res = await fetch(url);
     const data = await res.json();
     const status = data.status;
