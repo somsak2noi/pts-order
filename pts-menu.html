@@ -200,7 +200,7 @@ function generateOrderNo() {
 
 let currentOrderNo = '';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMp25-mfdFoeAXyk0islGpDr8LYfKM2piFNj-KbN22-Lu1XN7Ed_3wZiTmmy4PBO6rWg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxSU6IPuY-1V4kwRm5I1fBseiH43bZuTjM-0TH0M7lB7f2kijdLpgW6i_VKLcLnhvmqA/exec';
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
 document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
@@ -793,11 +793,8 @@ async function submitOrder() {
   const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
   currentOrderNo = generateOrderNo();
   try {
-    await fetch(SCRIPT_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo, message: '#' + currentOrderNo})
-    });
+    const orderData = encodeURIComponent(JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo}));
+    await fetch(SCRIPT_URL + '?data=' + orderData);
     orderRound++;
     orderHistory.push({round: orderRound, time: now, items: cart.map(c=>({...c})), total, orderNo: currentOrderNo});
     cart = [];
@@ -818,11 +815,8 @@ async function submitPayment() {
     `รอบ ${r.round}: ` + r.items.map(i => `${i.displayName} x${i.qty}`).join(', ') + ` (${r.total.toLocaleString()}฿)`
   ).join('\n');
   try {
-    await fetch(SCRIPT_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo})
-    });
+    const payData = encodeURIComponent(JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo}));
+    await fetch(SCRIPT_URL + '?data=' + payData);
     closePayModal();
     document.getElementById('pay-success-screen').classList.add('show');
   } catch(e) { alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); }
