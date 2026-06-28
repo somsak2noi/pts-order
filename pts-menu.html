@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>พุงโตสเต็ก - เมนู</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun',sans-serif;background:#111;color:#eee;min-height:100vh}
+.header{background:linear-gradient(160deg,#1a1a1a 0%,#111 100%);color:#fff;text-align:center;padding:20px 16px 16px;border-bottom:1px solid #2a2a2a}
+.header h1{font-size:22px;font-weight:700;letter-spacing:0.5px}
+.header-sub{font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:6px}
+.header p{font-size:12px;color:#666;margin-top:4px}
+.table-badge{display:inline-block;background:#e8b84b;color:#111;font-size:13px;font-weight:700;padding:4px 16px;border-radius:20px;margin-top:10px}
+.hdr-btns{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.hdr-btn{background:rgba(255,255,255,0.07);color:#aaa;border:1px solid #2a2a2a;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif}
+.hdr-btn.pay{background:rgba(232,184,75,0.15);color:#e8b84b;border-color:rgba(232,184,75,0.3)}
+.tabs-wrap{position:sticky;top:0;z-index:100;background:#111;border-bottom:1px solid #222;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tabs{display:inline-flex;padding:0 12px;gap:4px}
+.tab{padding:11px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:#555;white-space:nowrap;font-family:'Sarabun',sans-serif;background:none;border-top:none;border-left:none;border-right:none}
+.tab.active{color:#e8b84b;border-bottom-color:#e8b84b}
+.content{display:none;padding:12px 12px 80px}
+.content.active{display:block}
+.note-box{background:#1a1700;border-left:2px solid #e8b84b;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#9a8030;line-height:1.6}
+.cat-label{font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px 2px}
+.item{background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:border-color 0.15s}
+.item:active{border-color:#333}
+.item-info{flex:1}
+.item-name{font-size:15px;font-weight:600;color:#eee;line-height:1.3}
+.item-name-en{font-size:11px;color:#555;margin-top:2px}
+.item-detail{font-size:14px;color:#ccc;font-weight:400}
+.item-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
+.price{font-size:15px;font-weight:700;color:#e8b84b;white-space:nowrap}
+.qty-control{display:flex;align-items:center;gap:7px}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:none;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Sarabun',sans-serif}
+.qty-btn.minus{background:#252525;color:#666}
+.qty-btn.plus{background:#e8b84b;color:#111}
+.qty-num{font-size:15px;font-weight:700;min-width:18px;text-align:center;color:#fff}
+.add-btn{background:#e8b84b;color:#111;border:none;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif}
+.badge-new{background:#ef5350;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:1px solid #2a2a2a;padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:12px;z-index:200}
+.cart-bar.show{display:flex}
+.cart-info{color:#fff}
+.cart-count{font-size:12px;color:#666}
+.cart-total{font-size:18px;font-weight:700;color:#e8b84b}
+.order-btn{background:#e8b84b;color:#111;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;white-space:nowrap}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;align-items:flex-end}
+.modal-bg.show{display:flex}
+.modal{background:#1a1a1a;border-radius:20px 20px 0 0;border-top:1px solid #2a2a2a;padding:20px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:18px;font-weight:700;color:#eee;margin-bottom:2px}
+.modal-sub{font-size:13px;color:#555;margin-bottom:16px}
+.option-section{margin-bottom:16px}
+.option-section-title{font-size:12px;font-weight:700;color:#666;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #252525;letter-spacing:0.5px}
+.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.option-item{border:1.5px solid #2a2a2a;border-radius:10px;padding:9px 12px;cursor:pointer;font-size:14px;font-weight:600;text-align:center;color:#aaa;background:#111;transition:all 0.15s}
+.option-item.selected{border-color:#e8b84b;background:#1a1700;color:#e8b84b}
+.option-item.addon.selected{border-color:#e8b84b44;background:#1a1700;color:#9a8030}
+.price-preview{display:flex;justify-content:space-between;padding:12px 0;font-size:16px;font-weight:700;border-top:1px solid #252525;margin-top:8px;color:#eee}
+.add-to-cart-btn{background:#e8b84b;color:#111;border:none;border-radius:12px;padding:14px;width:100%;font-size:16px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;margin-top:12px}
+.cancel-btn{background:#252525;color:#777;border:none;border-radius:12px;padding:12px;width:100%;font-size:14px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif;margin-top:8px}
+.confirm-btn{background:#e8b84b;color:#111;border:none;border-radius:12px;padding:14px;width:100%;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;margin-top:12px}
+.pay-btn{background:#e8b84b;color:#111;border:none;border-radius:12px;padding:14px;width:100%;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;margin-top:12px}
+.order-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #222;font-size:14px;color:#ccc}
+.order-row:last-child{border-bottom:none}
+.order-total{display:flex;justify-content:space-between;padding:12px 0;font-size:17px;font-weight:700;border-top:1px solid #333;margin-top:4px;color:#eee}
+.history-round{border-bottom:1px solid #222;padding:10px 0}
+.history-round-header{font-size:12px;color:#555;margin-bottom:4px}
+.history-item{display:flex;justify-content:space-between;font-size:13px;padding:2px 0;color:#aaa}
+.history-total{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:#e8b84b;margin-top:4px;padding-top:4px;border-top:1px dashed #252525}
+.empty-history{text-align:center;padding:20px;color:#555;font-size:14px}
+.success-screen{display:none;position:fixed;inset:0;background:#111;z-index:500;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
+.success-screen.show{display:flex}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🥩 พุงโตสเต็ก</h1>
+  <p>เปิดทุกวัน 15:00–22:00 น. | Last order 21:30</p>
+  <span class="table-badge" id="table-label">โต๊ะ ...</span>
+  <div class="hdr-btns">
+    <button class="hdr-btn" onclick="showHistory()">📋 รายการที่สั่ง</button>
+    <button class="hdr-btn pay" onclick="showPayModal()">💳 เรียกเก็บเงิน</button>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('steak',this)">🥩 สเต็กจานเดียว</button>
+    <button class="tab" onclick="switchTab('set',this)">🍽️ สเต็กเซ็ท</button>
+    <button class="tab" onclick="switchTab('appetizer',this)">🍟 ทานเล่น</button>
+    <button class="tab" onclick="switchTab('salad',this)">🥗 สลัด/ยำ</button>
+    <button class="tab" onclick="switchTab('rice',this)">🍚 ข้าว/สปาเก็ตตี้</button>
+    
+    <button class="tab" onclick="switchTab('pizza',this)">🍕 พิซซ่า</button>
+    
+    <button class="tab" onclick="switchTab('drink',this)">🥤 เครื่องดื่ม</button>
+    <button class="tab" onclick="switchTab('coffee',this)">☕ นม/ชา/กาแฟ</button>
+    <button class="tab" onclick="switchTab('toast',this)">🍞 โทสต์</button>
+  </div>
+</div>
+
+<div class="content active" id="tab-steak"></div>
+<div class="content" id="tab-set"></div>
+<div class="content" id="tab-appetizer"></div>
+<div class="content" id="tab-salad"></div>
+<div class="content" id="tab-rice"></div>
+
+<div class="content" id="tab-pizza"></div>
+
+<div class="content" id="tab-drink"></div>
+<div class="content" id="tab-coffee"></div>
+<div class="content" id="tab-toast"></div>
+
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-info">
+    <div class="cart-count" id="cart-count"></div>
+    <div class="cart-total" id="cart-total"></div>
+  </div>
+  <button class="order-btn" onclick="showOrderModal()">ดูออเดอร์ →</button>
+</div>
+
+<!-- Option Modal (สเต็ก) -->
+<div class="modal-bg" id="option-modal-bg">
+  <div class="modal">
+    <div class="modal-title" id="option-title"></div>
+    <div class="modal-sub" id="option-sub"></div>
+    <div id="option-content"></div>
+    <div class="price-preview"><span>ราคารวม</span><span id="option-price" style="color:#e8b84b"></span></div>
+    <button class="add-to-cart-btn" onclick="addToCart()">🛒 เพิ่มลงตะกร้า</button>
+    <button class="cancel-btn" onclick="closeOptionModal()">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- Order Modal -->
+<div class="modal-bg" id="order-modal-bg" onclick="if(event.target===this)closeOrderModal()">
+  <div class="modal">
+    <div class="modal-title">ยืนยันออเดอร์</div>
+    <div class="modal-sub" id="order-modal-sub"></div>
+    <div id="order-modal-items"></div>
+    <div class="order-total"><span>รวมทั้งหมด</span><span id="order-modal-total"></span></div>
+    <button class="confirm-btn" id="submit-btn" onclick="submitOrder()">✅ ส่งออเดอร์ไปครัว</button>
+    <button class="cancel-btn" onclick="closeOrderModal()">แก้ไข</button>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal-bg" id="history-modal-bg" onclick="if(event.target===this)closeHistory()">
+  <div class="modal">
+    <div class="modal-title">📋 รายการที่สั่งแล้ว</div>
+    <div class="modal-sub" id="history-sub"></div>
+    <div id="history-content"></div>
+    <div class="order-total" id="history-grand" style="margin-top:8px"></div>
+    <button class="pay-btn" onclick="closeHistory();showPayModal()">💳 เรียกเก็บเงิน</button>
+    <button class="cancel-btn" onclick="closeHistory()">ปิด</button>
+  </div>
+</div>
+
+<!-- Pay Modal -->
+<div class="modal-bg" id="pay-modal-bg" onclick="if(event.target===this)closePayModal()">
+  <div class="modal">
+    <div class="modal-title">💳 เรียกพนักงานเก็บเงิน</div>
+    <div class="modal-sub" id="pay-sub"></div>
+    <div id="pay-content"></div>
+    <div class="order-total" id="pay-grand" style="margin-top:8px"></div>
+    <button class="confirm-btn" id="pay-confirm-btn" onclick="submitPayment()">🔔 แจ้งพนักงานมาเก็บเงิน</button>
+    <button class="cancel-btn" onclick="closePayModal()">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- Success screens -->
+<div class="success-screen" id="success-screen">
+  <div style="font-size:72px">✅</div>
+  <div style="font-size:22px;font-weight:700;margin:16px 0 8px">ส่งออเดอร์แล้ว!</div>
+  <div id="success-order-no" style="font-size:28px;font-weight:700;color:#e8b84b;margin:8px 0">#000000</div>
+  <div style="font-size:14px;color:#888">ครัวได้รับออเดอร์แล้ว กรุณารอสักครู่นะคะ 🙏</div>
+  <button onclick="document.getElementById('success-screen').classList.remove('show')" style="margin-top:28px;background:#e8b84b;color:#111;border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif">+ สั่งเพิ่ม</button>
+</div>
+<div class="success-screen" id="pay-success-screen">
+  <div style="font-size:72px">🔔</div>
+  <div style="font-size:22px;font-weight:700;margin:16px 0 8px">แจ้งพนักงานแล้ว!</div>
+  <div style="font-size:14px;color:#888">พนักงานกำลังมาเก็บเงิน ขอบคุณที่ใช้บริการ 🙏</div>
+  <button onclick="document.getElementById('pay-success-screen').classList.remove('show')" style="margin-top:28px;background:#e8b84b;color:#111;border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif">กลับหน้าเมนู</button>
+</div>
+
+<script>
+function generateOrderNo() {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  const h = String(now.getHours()).padStart(2,'0');
+  const mi = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  return yyyy + mm + dd + ':' + h + mi + s;
+}
+
+let currentOrderNo = '';
+
+const SCRIPT_URL = 'https://workflow.noicmidev.site/webhook/pts-order';
+const params = new URLSearchParams(window.location.search);
+const tableNum = params.get('table') || '1';
+document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
+
+// ── Steak Options ──────────────────────────────────────
+const SAUCES = ['ไม่เลือกซอสใดๆ','พริกไทยดำ','บาร์บีคิว','ครีมสลัด','เกลวี่','เทริยากิ','ซอสแจ่ว +10฿'];
+const YAM_OPTIONS = [
+  {name:'ปูอัด'}, {name:'แฮมไก่'}, {name:'หมูยอ'},
+  {name:'วุ้นเส้น'}, {name:'ไส้กรอก'}, {name:'มาม่า'},
+];
+
+const THREE_FOR_100 = [
+  {name:'ไส้กรอก'}, {name:'ฟิชฟิงเกอร์'}, {name:'เฟรนฟรายด์'},
+  {name:'สลัดผัก'}, {name:'มันบด'}, {name:'ยำสาหร่าย'},
+  {name:'ซุปเห็ด'}, {name:'ซุปมิโซะ'}, {name:'ปังเนยกระเทียม 3 ชิ้น'},
+  {name:'ชามะนาว'}, {name:'น้ำส้ม'}, {name:'น้ำแอปเปิ้ล'},
+  {name:'สตอร์เบอร์รี่โซดา'}, {name:'แอปเปิ้ลโซดา'}, {name:'น้ำผึ้งมะนาวโซดา'},
+  {name:'บลูเลมอนโซดา'}, {name:'มิ้นท์โซดา'}, {name:'น้ำอัดลมใหญ่'},
+];
+
+const SODA_OPTIONS = [
+  {name:'สตอร์เบอร์รี่โซดา', price:0},
+  {name:'แอปเปิ้ลเขียวโซดา', price:0},
+  {name:'น้ำผึ้งมะนาวโซดา', price:0},
+  {name:'มิ้นท์โซดา', price:0},
+  {name:'บลูเลมอนโซดา', price:0},
+];
+
+const PIZZA_TOPPINGS = [
+  {name:'ชีสยืด', price:30},
+  {name:'กุ้ง', price:20},
+  {name:'ปลาหมึก', price:20},
+  {name:'ปูอัด', price:10},
+  {name:'ไส้กรอก', price:10},
+  {name:'สัปปะรด', price:10},
+  {name:'แฮมไก่', price:10},
+];
+
+const RICE_TOPPINGS = [
+  {name:'ไข่', price:10},
+  {name:'ข้าวสวย', price:10},
+  {name:'เส้นมาม่า', price:10},
+  {name:'ผงชีส', price:10},
+  {name:'ผงบาร์บีคิว', price:10},
+  {name:'ผงลาบ', price:10},
+  {name:'ชีสแผ่น', price:15},
+  {name:'ไส้กรอกทอด', price:15},
+  {name:'เส้นสปาเก็ตตี้', price:15},
+];
+
+const APP_TOPPINGS = [
+  {name:'ผงชีส', price:10},
+  {name:'ผงบาร์บีคิว', price:10},
+  {name:'ผงลาบ', price:10},
+];
+
+const TOPPINGS = [
+  {name:'ไข่', price:10},
+  {name:'ข้าวสวย', price:10},
+  {name:'เส้นมาม่า', price:10},
+  {name:'ผงชีส', price:10},
+  {name:'ผงบาร์บีคิว', price:10},
+  {name:'ผงลาบ', price:10},
+  {name:'ชีสแผ่น', price:15},
+  {name:'ไส้กรอกทอด', price:15},
+  {name:'เส้นสปาเก็ตตี้', price:15},
+  {name:'เปลี่ยนเฟรนฟรายเป็นมันบด', price:10},
+  {name:'เพิ่มมันบด', price:20},
+];
+const ADDON_10 = TOPPINGS.filter(t=>t.price===10).map(t=>t.name);
+const ADDON_15 = TOPPINGS.filter(t=>t.price>10).map(t=>t.name);
+
+// ── Menu Data ──────────────────────────────────────
+const MENU = {
+  steak: [
+    {id:'s10',name:'สเต็กพอร์คช็อพ',en:'Porkchop Steak',price:139,hasOptions:true},
+    {id:'s9',name:'สเต็กเนื้อ',en:'Marinated Ribeye Steak',price:99,hasOptions:true},
+    {id:'s8',name:'สเต็กปลาย่าง',en:'Grill Fish Steak',price:89,hasOptions:true},
+    {id:'s7',name:'สเต็กปลาทอด',en:'Fried Fish Steak',price:89,hasOptions:true},
+    {id:'s5',name:'สเต็กหมูทอด XL',en:'XL Fried Pork Steak',price:89,hasOptions:true},
+    {id:'s6',name:'สเต็กหมูทอด',en:'Fried Pork Steak',price:69,hasOptions:true},
+    {id:'s4',name:'สเต็กหมูบด',en:'Minced Pork Steak',price:69,hasOptions:true},
+    {id:'s3',name:'สเต็กหมูสันนอก',en:'Pork Loin Steak',price:69,hasOptions:true},
+    {id:'s2',name:'สเต็กไก่ทอด',en:'Fried Chicken Steak',price:79,hasOptions:true},
+    {id:'s1',name:'สเต็กไก่ย่าง',en:'Grilled Chicken Steak',price:69,hasOptions:true},
+  ],
+  set: [
+    {id:'set1',name:'สเต็กเซ็ทรวม',detail:'ปลาย่าง+หมูสันนอก+ไก่ย่าง+เฟรนฟรายด์+ฟิชฟิงเกอร์+ยำสาหร่าย+ชาเขียวมะลิ 2 แก้ว',en:'Grill Fish+Pork Loin+Grilled Chicken+FF+Fish Finger+Seaweed Salad+2 Green Tea',price:299,hasOptions:true},
+    {id:'set2',name:'สเต็กพอร์คช็อพเซ็ท',detail:'สเต็กพอร์คช็อพ+ยำสาหร่าย+ชาเขียวมะลิ',en:'Porkchop Steak+Seaweed Salad+Green Tea',price:219,hasOptions:true},
+    {id:'set3',name:'สเต็กปลาทอดเซ็ท',detail:'สเต็กปลาทอด+ยำสาหร่าย+ชาเขียวมะลิ',en:'Fried Fish Steak+Seaweed Salad+Green Tea',price:169,hasOptions:true},
+    {id:'set3b',name:'สเต็กปลาย่างเซ็ท',detail:'สเต็กปลาย่าง+ยำสาหร่าย+ชาเขียวมะลิ',en:'Grill Fish Steak+Seaweed Salad+Green Tea',price:169,hasOptions:true},
+    {id:'set4',name:'สเต็กหมูสันนอกเซ็ท',detail:'สเต็กหมูสันนอก+ยำสาหร่าย+ชาเขียวมะลิ',en:'Pork Loin Steak+Seaweed Salad+Green Tea',price:129,hasOptions:true},
+    {id:'set4b',name:'สเต็กไก่ย่างเซ็ท',detail:'สเต็กไก่ย่าง+ยำสาหร่าย+ชาเขียวมะลิ',en:'Grilled Chicken Steak+Seaweed Salad+Green Tea',price:129,hasOptions:true},
+    {id:'set-fish',name:'ฟิชแอนด์ชิป',en:'Fish & Chip Set',price:99,hasOptions:'steak-topping'},
+  ],
+  appetizer: [
+    {id:'set10-app',name:'ชุด 3 อย่าง 100',detail:'เลือก 3 รายการจากเมนูด้านล่าง',en:'3 Items from Menu',price:100,hasOptions:true},
+    {id:'a1',name:'ไก่คาราเกะสไปซี่',en:'Chicken Karake Spicy Powder',price:59,badge:'NEW',hasOptions:true},
+    {id:'a7',name:'นักเก็ตสติ๊ก',en:'Chicken Nugget',price:55,hasOptions:true},
+    {id:'a8',name:'เกี้ยวซ่าทอด 5 ชิ้น',en:'Deep Fried Gyoza',price:55,hasOptions:true},
+    {id:'a9',name:'ชีสบอล 5 ลูก',en:'Cheese Ball 5 pcs',price:55,hasOptions:true},
+    {id:'a4',name:'ไส้กรอกทอด',en:'Fried Sausage',price:45,hasOptions:true},
+    {id:'a5',name:'ฟิชฟิงเกอร์',en:'Fish Finger',price:45,hasOptions:true},
+    {id:'a6',name:'เฟรนฟรายด์',en:'French Fries',price:45,hasOptions:true},
+    {id:'a10',name:'เกี้ยวซ่าและชาเขียวมะลิ',en:'Pork Gyoza & Green Tea',price:29,hasOptions:true},
+    {id:'bread-divider',name:'— ปัง : Bread —',en:'',price:null,isDivider:true},
+    {id:'a2',name:'ปังกระเทียม 6 ชิ้น',en:'Garlic Bread 6 pcs',price:49},
+    {id:'a3',name:'ปังกระเทียม 3 ชิ้น',en:'Garlic Bread 3 pcs',price:35},
+    {id:'so-divider',name:'— ซุป : Soup —',en:'',price:null,isDivider:true},
+    {id:'so2',name:'ซุปเห็ด',en:'Mushroom Soup',price:49},
+    {id:'so3',name:'ซุปมิโซะ 2 ถ้วย',en:'Duo Miso Soup',price:49},
+    {id:'so1',name:'ซุปมิโซะ',en:'Miso Soup',price:39},
+  ],
+  salad: [
+    {id:'sl8',name:'ดอลลี่คำหวาน',en:'Steam Fish with Spicy Sauce',price:85},
+    {id:'sl7',name:'หมึกคำหวาน',en:'Squid with Spicy Sauce',price:75},
+    {id:'sl6',name:'หมูคำหวาน',en:'Grill Pork with Spicy Sauce',price:65},
+    {id:'sl2',name:'สลัดผักทูน่า',en:'Veg Salad with Tuna',price:65},
+    {id:'sl1',name:'สลัดผัก',en:'Vegetable Salad',price:45},
+    {id:'sl3',name:'ยำสาหร่าย',en:'Spicy Seaweed Salad',price:55},
+    {id:'sl5',name:'มันบดอบชีส',en:'Mash Potato with Cheese',price:65},
+    {id:'sl4',name:'มันบด',en:'Mash Potato',price:45},
+    {id:'sl9',name:'ลาบมาม่า',en:'Spicy E-sarn Noodle',price:40},
+    {id:'yam-divider',name:'— ยำ : Spicy Salad —',en:'',price:null,isDivider:true},
+    {id:'yam3',name:'ยำรวม 3 รายการ',detail:'เลือกส่วนประกอบ 3 อย่าง',en:'Spicy Salad 3 Items',price:50,hasOptions:'yam3'},
+    {id:'yam2',name:'ยำรวม 2 รายการ',detail:'เลือกส่วนประกอบ 2 อย่าง',en:'Spicy Salad 2 Items',price:45,hasOptions:'yam2'},
+    {id:'yam1',name:'ยำ 1 รายการ',detail:'เลือกส่วนประกอบ 1 อย่าง',en:'Spicy Salad 1 Item',price:35,hasOptions:'yam1'},
+  ],
+  rice: [
+    {id:'set5',name:'ชุดข้าวหมูทอดทงคัตสึ',detail:'เสิร์ฟพร้อมมิโซะซุป',en:'Tonkatsu with Rice and Miso Soup',price:99,hasOptions:true},
+    {id:'set6',name:'ชุดข้าวซาบะเทริยากิ',detail:'เสิร์ฟพร้อมมิโซะซุป',en:'Saba Teriyaki with Rice and Miso Soup',price:99,hasOptions:true},
+    {id:'set7',name:'ชุดข้าวแฮมเบิร์กหมู',detail:'เสิร์ฟพร้อมมิโซะซุป',en:'Pork Hamburg Steak with Rice and Miso Soup',price:99,hasOptions:true},
+    {id:'r2',name:'ข้าวปลาย่างซอสแจ่ว',en:'Grill Fish with Rice and E-Sarn Sauce',price:85,hasOptions:true},
+    {id:'r5a',name:'ข้าวปลาย่างเทริยากิเสิร์ฟพร้อมน้ำจิ้มสามรส',en:'Grill Fish Teriyaki with Rice and Spicy Sauce',price:85,hasOptions:true},
+    {id:'r4b',name:'ข้าวหมู/ไก่ ซอสแจ่ว',en:'Pork or Chicken with Rice and E-sarn Sauce',price:75,hasOptions:true},
+    {id:'r4a',name:'ข้าวหมูซอสแจ่ว',en:'Pork with Rice and E-sarn Sauce',price:75,hasOptions:true},
+    {id:'r5b',name:'ข้าวหมูเทริยากิเสิร์ฟพร้อมน้ำจิ้มสามรส',en:'Pork Teriyaki with Rice and Spicy Sauce',price:65,hasOptions:true},
+    {id:'r5c',name:'ข้าวไก่เทริยากิเสิร์ฟพร้อมน้ำจิ้มสามรส',en:'Chicken Teriyaki with Rice and Spicy Sauce',price:65,hasOptions:true},
+    {id:'r3',name:'ข้าวไก่คาราเกะซอสแจ่ว',en:'Fried Chicken with Rice and E-Sarn Sauce',price:69,hasOptions:true},
+    {id:'pasta-divider',name:'— สปาเก็ตตี้ : Spaghetti —',en:'',price:null,isDivider:true},
+    {id:'p5',name:'คาโบนาร่าไข่กุ้ง XL',en:'XL Carbonara with Ebiko',price:99,hasOptions:true},
+    {id:'p6',name:'คาโบนาร่าไข่กุ้ง M',en:'M Carbonara with Ebiko',price:75,hasOptions:true},
+    {id:'p3',name:'คาโบนาร่า XL',en:'XL Carbonara',price:89,hasOptions:true},
+    {id:'p4',name:'คาโบนาร่า M',en:'M Carbonara',price:65,hasOptions:true},
+    {id:'p1',name:'สปาเก็ตตี้ซอสหมู XL',en:'XL Spaghetti with Pork Sauce',price:79,hasOptions:true},
+    {id:'p2',name:'สปาเก็ตตี้ซอสหมู M',en:'M Spaghetti with Pork Sauce',price:55,hasOptions:true},
+  ],
+  pasta: [],
+  pizza: [
+    {id:'set9',name:'พิซซ่าเซ็ท 229',detail:'พิซซ่าซีฟู้ด 129฿ + ไก่คาราเกะสไปซี่ + เฟรนฟราย',en:'Pizza 129B + Spicy Chicken Karake + French Fries',price:229,hasOptions:true},
+    {id:'set8',name:'พิซซ่าเซ็ท 219',detail:'พิซซ่า 119฿ + ไก่คาราเกะสไปซี่ + เฟรนฟราย',en:'Pizza 119B + Spicy Chicken Karake + French Fries',price:219,hasOptions:true},
+    {id:'pz7',name:'พิซซ่าซีฟู้ดชีส',en:'Seafood Cheese',price:129,hasOptions:true},
+    {id:'pz2',name:'พิซซ่าแฮมและไส้กรอก (Ham & Sausage)',en:'Ham & Sausage Pizza',price:119,hasOptions:true},
+    {id:'pz3',name:'พิซซ่าฮาวายเอี้ยน',en:'Hawaiian Pizza',price:119,hasOptions:true},
+    {id:'pz4',name:'พิซซ่าชีสไข่กุ้ง',en:'Ebiko Cheese Pizza',price:119,hasOptions:true},
+    {id:'pz5',name:'พิซซ่าชีสปูอัด',en:'Crab Stick Pizza',price:119,hasOptions:true},
+    {id:'pz6',name:'พิซซ่าชีสไส้กรอก',en:'Sausage Cheese Pizza',price:119,hasOptions:true},
+    {id:'pz1',name:'พิซซ่าชีสล้วน 🔥 โปรโมชั่น!',en:'Cheese Lover Pizza (Promotion)',price:99,hasOptions:true},
+  ],
+  soup: [],
+  drink: [
+    {id:'d15',name:'อิตาเลี่ยนโซดา 2 แก้ว',en:'Duo Soda Drink',price:59,hasOptions:true},
+    {id:'d10',name:'สตอร์เบอร์รี่โซดา',en:'Strawberry Soda',price:35},
+    {id:'d11',name:'แอปเปิ้ลเขียวโซดา',en:'Green Apple Soda',price:35},
+    {id:'d12',name:'น้ำผึ้งมะนาวโซดา',en:'Honey Lemon Soda',price:35},
+    {id:'d13',name:'มิ้นท์โซดา',en:'Mint Soda',price:35},
+    {id:'d14',name:'บลูเลมอนโซดา',en:'Blue Lemon Soda',price:35},
+    {id:'d9a',name:'น้ำส้ม',en:'Orange Juice',price:35},
+    {id:'d9b',name:'น้ำแอปเปิ้ล',en:'Apple Juice',price:35},
+    {id:'d7',name:'เอสโคล่า 1 ลิตร',en:'Est Cola 1 Liter',price:35},
+    {id:'d8a',name:'อิชิตันน้ำผึ้งมะนาว',en:'Ichitan Honey Lemon',price:25},
+    {id:'d8b',name:'อิชิตันต้นตำรับ',en:'Ichitan Original',price:25},
+    {id:'d8c',name:'อิชิตันข้าวญี่ปุ่น',en:'Ichitan Japanese Rice',price:25},
+    {id:'d4',name:'โซดาสิงห์',en:'Singha Soda',price:15},
+    {id:'d5a',name:'เปปซี่',en:'Pepsi',price:15},
+    {id:'d5b',name:'เปปซี่แม็กซ์',en:'Pepsi Max',price:15},
+    {id:'d6a',name:'มิรินด้าแดง',en:'Mirinda Red',price:15},
+    {id:'d6b',name:'มิรินด้าส้ม',en:'Mirinda Orange',price:15},
+    {id:'d6c',name:'มิรินด้าเขียว',en:'Mirinda Green',price:15},
+    {id:'d6d',name:'7up',en:'7up',price:15},
+    {id:'d1',name:'เอสโคล่า 15 ออนซ์',en:'Est Cola 15 oz',price:9},
+    {id:'d2',name:'น้ำเปล่าเล็ก',en:'Small Water',price:10},
+    {id:'d3',name:'น้ำเปล่าใหญ่',en:'Large Water',price:15},
+    {id:'beer-divider',name:'— เบียร์ : Beer —',en:'',price:null,isDivider:true},
+    {id:'d17',name:'เบียร์สิงห์',en:'Singha Beer',price:75},
+    {id:'d16a',name:'เบียร์ช้าง',en:'Chang Beer',price:70},
+    {id:'d16b',name:'เบียร์ลีโอ',en:'Leo Beer',price:70},
+  ],
+  coffee: [
+    {id:'milk-divider',name:'— นม : Milk —',en:'',price:null,isDivider:true},
+    {id:'c20',name:'นมน้ำผึ้ง',en:'Honey Milk',price:45},
+    {id:'c21',name:'นมโอวัลติน',en:'Ovaltine Milk',price:45},
+    {id:'c21b',name:'นมโกโก้',en:'Coco Milk',price:45},
+    {id:'c18',name:'นมคาราเมล',en:'Caramel Milk',price:35},
+    {id:'c19',name:'นมชมพูเย็น',en:'Pink Milk',price:35},
+    {id:'c17',name:'นมสดจืด/หวาน',en:'Fresh Milk Normal/Sweet',price:30},
+    {id:'tea-divider',name:'— ชา : Tea —',en:'',price:null,isDivider:true},
+    {id:'c12',name:'ชาไทยนมสด',en:'Iced Thai Tea Latte',price:40},
+    {id:'c13',name:'ชาเขียวนมสด',en:'Iced Green Tea Latte',price:40},
+    {id:'c14',name:'ชาดำเย็น',en:'Iced Black Thai Tea',price:40},
+    {id:'c15',name:'ชาพีช',en:'Iced Peach Tea',price:40},
+    {id:'c16',name:'ชามะนาว',en:'Iced Lemon Tea',price:40},
+    {id:'coffee-divider',name:'— กาแฟ : Coffee —',en:'',price:null,isDivider:true},
+    {id:'c11',name:'อเมเย็น 2 แก้ว',en:'Duo Americano',price:59},
+    {id:'c10',name:'คาราเมลมัคคิอาโตเย็น',en:'Iced Caramel Macchiato',price:50},
+    {id:'c6',name:'อเมริกาโนน้ำส้มเย็น',en:'Iced Orange Americano',price:45},
+    {id:'c7',name:'อเมริกาโนน้ำผึ้งเย็น',en:'Iced Honey Americano',price:45},
+    {id:'c8',name:'อเมริกาโนมะพร้าวเย็น',en:'Iced Coconut Americano',price:45},
+    {id:'c9',name:'มอคค่ามิ้นท์เย็น',en:'Iced Mocha Mint',price:45},
+    {id:'c3',name:'ลาเต้เย็น',en:'Iced Latte',price:40},
+    {id:'c4',name:'คาปูชิโนเย็น',en:'Iced Cappuccino',price:40},
+    {id:'c5',name:'มอคค่าเย็น',en:'Iced Mocha',price:40},
+    {id:'c2',name:'อเมริกาโนเย็น',en:'Iced Americano',price:35},
+    {id:'c1',name:'เอสเพรสโซเย็น',en:'Espresso',price:35},
+  ],
+  toast: [
+    {id:'t10',name:'ปังเนยแฮมพิซซ่าชีสบีด',en:'Ham + Mozzarella Cheese Toast',price:45},
+    {id:'t4',name:'ปังเนย + นม + น้ำตาล',en:'Butter Toast + Sugar + Con Milk',price:30},
+    {id:'t5',name:'ปังเนย + ซอสช็อคโกเลต',en:'Chocolate Sauce Toast',price:30},
+    {id:'t2',name:'ปังเนย + นม',en:'Butter Toast + Condensed Milk',price:26},
+    {id:'t3',name:'ปังเนย + น้ำตาล',en:'Butter Toast + Sugar',price:26},
+    {id:'t1',name:'ปังเนย',en:'Butter Toast',price:22},
+  ],
+};
+
+// ── Cart State ──────────────────────────────────────
+let cart = [];
+let orderHistory = [];
+let orderRound = 0;
+let currentOptionItem = null;
+let selectedSauce = '';
+let selectedToppings = [];
+
+// ── Simple Qty ──────────────────────────────────────
+function changeSimpleQty(id, delta, price) {
+  const allItems = Object.values(MENU).flat().filter(i=>!i.isDivider);
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+  const existing = cart.find(c => c.itemId === id && !c.sauce);
+  if (delta > 0) {
+    if (existing) existing.qty++;
+    else cart.push({itemId: id, name: item.name, qty: 1, price: item.price, sauce:'', addon10:[], addon15:[], totalPrice: item.price, displayName: item.name});
+  } else {
+    if (existing && existing.qty > 1) existing.qty--;
+    else if (existing) cart = cart.filter(c => !(c.itemId === id && !c.sauce));
+  }
+  const total = cart.filter(c => c.itemId === id && !c.sauce).reduce((s,c)=>s+c.qty,0);
+  const el = document.getElementById('sqty-' + id);
+  if (el) el.textContent = total;
+  updateCartBar();
+}
+
+// ── Render Functions ──────────────────────────────────────
+function renderSteakTab() {
+  const el = document.getElementById('tab-steak');
+  el.innerHTML = `<div class="note-box">🥫 ซอสจิ้ม: พริกไทยดำ / บาร์บีคิว / ครีมสลัด / เกลวี่ / เทริยากิ / ซอสแจ่ว<br>🧀 ท็อปปิ้งใส่เพิ่มได้: ไข่ / ข้าวสวย / เส้นมาม่า / ผงชีส / ผงบาร์บีคิว / ผงลาบ / ชีสแผ่น / ไส้กรอกทอด / เส้นสปาเก็ตตี้ / เปลี่ยนเฟรนฟรายเป็นมันบด / เพิ่มมันบด</div>` +
+    MENU.steak.map(item => `
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-name-en">${item.en}</div>
+      </div>
+      <div class="item-right">
+        <div class="price">${item.price} ฿</div>
+        <button class="add-btn" onclick="openOptionModal('${item.id}','steak')">เลือก +</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderSimpleTab(tabId, items, note='') {
+  const el = document.getElementById('tab-' + tabId);
+  el.innerHTML = (note ? `<div class="note-box">${note}</div>` : '') + items.map(item => {
+    if (item.isDivider) return `<div class="cat-label" style="margin-top:16px">${item.name}</div>`;
+    return `
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">${item.name}${item.detail ? ' : <span class="item-detail">' + item.detail + '</span>' : ''}${item.badge==='NEW'?'<span class="badge-new">NEW</span>':''}</div>
+        <div class="item-name-en">${item.en}</div>
+      </div>
+      <div class="item-right">
+        <div class="price">${item.price !== null ? item.price + ' ฿' : ''}</div>
+        ${item.hasOptions
+          ? `<button class="add-btn" onclick="openOptionModal('${item.id}','${tabId}')">เลือก +</button>`
+          : `<div class="qty-control">
+              <button class="qty-btn minus" onclick="changeSimpleQty('${item.id}',-1,${item.price})">−</button>
+              <span class="qty-num" id="sqty-${item.id}">0</span>
+              <button class="qty-btn plus" onclick="changeSimpleQty('${item.id}',+1,${item.price})">+</button>
+            </div>`
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Render All Tabs ──────────────────────────────────────
+renderSteakTab();
+renderSimpleTab('set', MENU.set, '🥫 ซอสจิ้ม: พริกไทยดำ / บาร์บีคิว / ครีมสลัด / เกลวี่ / เทริยากิ / ซอสแจ่ว<br>🧀 ท็อปปิ้งใส่เพิ่มได้: ไข่ / ข้าวสวย / เส้นมาม่า / ผงชีส / ผงบาร์บีคิว / ผงลาบ / ชีสแผ่น / ไส้กรอกทอด / เส้นสปาเก็ตตี้ / เปลี่ยนเฟรนฟรายเป็นมันบด / เพิ่มมันบด');
+renderSimpleTab('appetizer', MENU.appetizer);
+renderSimpleTab('salad', MENU.salad);
+renderSimpleTab('rice', MENU.rice);
+renderSimpleTab('pizza', MENU.pizza);
+renderSimpleTab('drink', MENU.drink, '🍺 เบียร์ขายตั้งแต่ 17:00 น. เป็นต้นไป');
+renderSimpleTab('coffee', MENU.coffee);
+renderSimpleTab('toast', MENU.toast);
+
+// ── Option Modal ──────────────────────────────────────
+let currentTab = 'steak';
+
+function openOptionModal(id, tab='steak') {
+  const allItems = Object.values(MENU).flat();
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+  currentOptionItem = item;
+  currentTab = tab;
+  selectedSauce = '';
+  selectedToppings = [];
+  document.getElementById('option-title').textContent = item.name;
+  document.getElementById('option-sub').textContent = item.detail ? item.detail + ' · ' + item.price + ' ฿' : item.en + ' · ' + item.price + ' ฿';
+  renderOptions();
+  document.getElementById('option-modal-bg').classList.add('show');
+}
+
+function renderOptions() {
+  const item = currentOptionItem;
+  let html = '';
+
+  if (currentOptionItem && (currentOptionItem.id === 'set10' || currentOptionItem.id === 'set10-app')) {
+    const maxSel = 3;
+    const selCount = selectedToppings.length;
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🍽️ เลือก 3 รายการ (เลือกแล้ว ${selCount}/3)</div>
+      <div class="option-grid">
+        ${THREE_FOR_100.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          const disabled = !sel && selCount >= maxSel;
+          return '<div class="option-item addon' + (sel?' selected':'') + (disabled?' style=\"opacity:0.4;pointer-events:none\"':'') + '" onclick="toggle3for100(\'' + t.name + '\')">' + t.name + '</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else if (currentOptionItem && (currentOptionItem.hasOptions === 'yam3' || currentOptionItem.hasOptions === 'yam2' || currentOptionItem.hasOptions === 'yam1')) {
+    const maxItems = currentOptionItem.hasOptions === 'yam3' ? 3 : currentOptionItem.hasOptions === 'yam2' ? 2 : 1;
+    const selCount = selectedToppings.length;
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🥗 เลือกส่วนประกอบ ${maxItems} อย่าง (เลือกแล้ว ${selCount}/${maxItems})</div>
+      <div class="option-grid">
+        ${YAM_OPTIONS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          const disabled = !sel && selCount >= maxItems;
+          return '<div class="option-item addon' + (sel?' selected':'') + (disabled?' style=\"opacity:0.4;pointer-events:none\"':'') + '" onclick="toggleYam(\'' + t.name + '\',' + maxItems + ')">' + t.name + '</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else if (currentTab === 'appetizer') {
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🧀 ผงโรยหน้า (เลือกได้หลายอย่าง)</div>
+      <div class="option-grid">
+        ${APP_TOPPINGS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          return '<div class="option-item addon' + (sel?' selected':'') + '" onclick="toggleTopping(\'' + t.name + '\',' + t.price + ')">' + t.name + ' +' + t.price + '฿</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else if (currentOptionItem && currentOptionItem.hasOptions === 'steak-topping') {
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🧀 ท็อปปิ้งใส่เพิ่มได้ (เลือกได้หลายอย่าง)</div>
+      <div class="option-grid">
+        ${TOPPINGS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          return '<div class="option-item addon' + (sel?' selected':'') + '" onclick="toggleTopping(\'' + t.name + '\',' + t.price + ')">' + t.name + ' +' + t.price + '฿</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else if (currentTab === 'drink') {
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🥤 เลือกรสโซดา (เลือกได้ 2 แก้ว)</div>
+      <div class="option-grid">
+        ${SODA_OPTIONS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          return '<div class="option-item addon' + (sel?' selected':'') + '" onclick="toggleTopping(\'' + t.name + '\',0)">' + t.name + '</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else if (currentTab === 'pizza') {
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🍕 ท็อปปิ้งใส่เพิ่มได้ (เลือกได้หลายอย่าง)</div>
+      <div class="option-grid">
+        ${PIZZA_TOPPINGS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          return '<div class="option-item addon' + (sel?' selected':'') + '" onclick="toggleTopping(\'' + t.name + '\',' + t.price + ')">' + t.name + ' +' + t.price + '฿</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else if (currentTab === 'rice') {
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🍳 ท็อปปิ้งใส่เพิ่มได้ (เลือกได้หลายอย่าง)</div>
+      <div class="option-grid">
+        ${RICE_TOPPINGS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          return '<div class="option-item addon' + (sel?' selected':'') + '" onclick="toggleTopping(\'' + t.name + '\',' + t.price + ')">' + t.name + ' +' + t.price + '฿</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  } else {
+    html = `
+    <div class="option-section">
+      <div class="option-section-title">🥫 เลือกซอส (เลือก 1 อย่าง)</div>
+      <div class="option-grid">
+        ${SAUCES.map(s => '<div class="option-item' + (selectedSauce===s?' selected':'') + '" onclick="selectSauce(\'' + s + '\')">' + s + '</div>').join('')}
+      </div>
+    </div>
+    <div class="option-section">
+      <div class="option-section-title">🧀 ท็อปปิ้งใส่เพิ่มได้ (เลือกได้หลายอย่าง)</div>
+      <div class="option-grid">
+        ${TOPPINGS.map(t => {
+          const sel = selectedToppings.some(s=>s.name===t.name);
+          return '<div class="option-item addon' + (sel?' selected':'') + '" onclick="toggleTopping(\'' + t.name + '\',' + t.price + ')">' + t.name + ' +' + t.price + '฿</div>';
+        }).join('')}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('option-content').innerHTML = html;
+  updateOptionPrice();
+}
+function selectSauce(s) { selectedSauce = s; renderOptions(); }
+function toggleYam(name, maxItems) {
+  const idx = selectedToppings.findIndex(t=>t.name===name);
+  if (idx >= 0) {
+    selectedToppings.splice(idx, 1);
+  } else {
+    if (selectedToppings.length >= maxItems) return;
+    selectedToppings.push({name, price:0});
+  }
+  renderOptions();
+}
+
+function toggle3for100(name) {
+  const idx = selectedToppings.findIndex(t=>t.name===name);
+  if (idx >= 0) {
+    selectedToppings.splice(idx, 1);
+  } else {
+    if (selectedToppings.length >= 3) return;
+    selectedToppings.push({name, price:0});
+  }
+  renderOptions();
+}
+
+function toggleTopping(name, price) {
+  const idx = selectedToppings.findIndex(t=>t.name===name);
+  if (idx >= 0) selectedToppings.splice(idx, 1);
+  else selectedToppings.push({name, price});
+  renderOptions();
+}
+function updateOptionPrice() {
+  const extra = selectedToppings.reduce((s,t)=>s+t.price,0);
+  const sauceExtra = selectedSauce && selectedSauce.includes('+10') ? 10 : 0;
+  const total = currentOptionItem.price + extra + sauceExtra;
+  document.getElementById('option-price').textContent = total + ' ฿';
+}
+
+function addToCart() {
+  const item = currentOptionItem;
+
+  // set10 — ชุด 3 อย่าง
+  // ยำ — ต้องเลือกครบตามจำนวน
+  if (item && (item.hasOptions === 'yam3' || item.hasOptions === 'yam2' || item.hasOptions === 'yam1')) {
+    const maxItems = item.hasOptions === 'yam3' ? 3 : item.hasOptions === 'yam2' ? 2 : 1;
+    if (selectedToppings.length < maxItems) { alert('กรุณาเลือกส่วนประกอบให้ครบ ' + maxItems + ' อย่างนะคะ'); return; }
+    const displayName = item.name + ' (' + selectedToppings.map(t=>t.name).join(', ') + ')';
+    cart.push({
+      itemId: item.id, name: item.name, qty: 1,
+      price: item.price, sauce: '', addon10:[], addon15:[],
+      totalPrice: item.price, displayName
+    });
+    closeOptionModal();
+    updateCartBar();
+    return;
+  }
+
+  if (item && (item.id === 'set10' || item.id === 'set10-app')) {
+    if (selectedToppings.length < 3) { alert('กรุณาเลือก 3 รายการนะคะ'); return; }
+    const displayName = item.name + ' (' + selectedToppings.map(t=>t.name).join(', ') + ')';
+    cart.push({
+      itemId: item.id, name: item.name, qty: 1,
+      price: item.price, sauce: '', addon10:[], addon15:[],
+      totalPrice: item.price, displayName
+    });
+    closeOptionModal();
+    updateCartBar();
+    return;
+  }
+
+  // steak/set — ต้องเลือกซอส (ยกเว้น steak-topping)
+  if ((currentTab === 'steak' || currentTab === 'set') && !selectedSauce && item.hasOptions !== 'steak-topping') {
+    alert('กรุณาเลือกซอสก่อนนะคะ'); return;
+  }
+
+  const toppingExtra = selectedToppings.reduce((s,t)=>s+t.price,0);
+  const sauceExtra = selectedSauce && selectedSauce.includes('+10') ? 10 : 0;
+  const totalPrice = item.price + toppingExtra + sauceExtra;
+  const sauceName = selectedSauce.replace(' +10฿','');
+  let displayName = item.name + ' (ซอส' + sauceName + ')';
+  if (selectedToppings.length) {
+    displayName += ' + ' + selectedToppings.map(t=>t.name).join(', ');
+  }
+  cart.push({
+    itemId: item.id, name: item.name, qty: 1,
+    price: totalPrice, sauce: selectedSauce,
+    addon10: [], addon15: [],
+    totalPrice, displayName
+  });
+  closeOptionModal();
+  updateCartBar();
+}
+
+function closeOptionModal() { document.getElementById('option-modal-bg').classList.remove('show'); }
+
+// ── Cart Bar ──────────────────────────────────────
+function updateCartBar() {
+  const total = cart.reduce((s,c) => s + c.price*c.qty, 0);
+  const count = cart.reduce((s,c) => s + c.qty, 0);
+  const bar = document.getElementById('cart-bar');
+  if (count > 0) {
+    bar.classList.add('show');
+    document.getElementById('cart-count').textContent = count + ' รายการ';
+    document.getElementById('cart-total').textContent = total.toLocaleString() + ' ฿';
+  } else bar.classList.remove('show');
+}
+
+// ── Order Modal ──────────────────────────────────────
+function showOrderModal() {
+  const total = cart.reduce((s,c) => s + c.price*c.qty, 0);
+  document.getElementById('order-modal-sub').textContent = 'โต๊ะ ' + tableNum;
+  document.getElementById('order-modal-items').innerHTML = cart.map(c => `
+    <div class="order-row">
+      <div>
+        <div>${c.displayName} x${c.qty}</div>
+      </div>
+      <span>${(c.price*c.qty).toLocaleString()} ฿</span>
+    </div>`).join('');
+  document.getElementById('order-modal-total').textContent = total.toLocaleString() + ' ฿';
+  document.getElementById('order-modal-bg').classList.add('show');
+}
+function closeOrderModal() { document.getElementById('order-modal-bg').classList.remove('show'); }
+
+// ── History ──────────────────────────────────────
+function grandTotal() { return orderHistory.reduce((s,r) => s + r.total, 0); }
+function buildHistoryHTML() {
+  if (!orderHistory.length) return '<div class="empty-history">ยังไม่มีรายการที่สั่ง</div>';
+  return orderHistory.map(r => `
+    <div class="history-round">
+      <div class="history-round-header">รอบที่ ${r.round} · ${r.time} · <span style="color:#e8b84b">#${r.orderNo || '------'}</span></div>
+      ${r.items.map(i => `<div class="history-item"><span>${i.displayName} x${i.qty}</span><span>${(i.price*i.qty).toLocaleString()} ฿</span></div>`).join('')}
+      <div class="history-total"><span>รวมรอบนี้</span><span>${r.total.toLocaleString()} ฿</span></div>
+    </div>`).join('');
+}
+function showHistory() {
+  document.getElementById('history-sub').textContent = 'โต๊ะ ' + tableNum;
+  document.getElementById('history-content').innerHTML = buildHistoryHTML();
+  const gt = grandTotal();
+  document.getElementById('history-grand').innerHTML = gt > 0 ? `<span>ยอดรวมทั้งหมด</span><span style="color:#e8b84b">${gt.toLocaleString()} ฿</span>` : '';
+  document.getElementById('history-modal-bg').classList.add('show');
+}
+function closeHistory() { document.getElementById('history-modal-bg').classList.remove('show'); }
+
+// ── Pay Modal ──────────────────────────────────────
+function showPayModal() {
+  if (!orderHistory.length) { alert('ยังไม่มีรายการที่สั่ง กรุณาสั่งอาหารก่อนนะคะ'); return; }
+  document.getElementById('pay-sub').textContent = 'โต๊ะ ' + tableNum;
+  document.getElementById('pay-content').innerHTML = buildHistoryHTML();
+  const gt = grandTotal();
+  document.getElementById('pay-grand').innerHTML = `<span>ยอดรวมทั้งหมด</span><span style="color:#e8b84b">${gt.toLocaleString()} ฿</span>`;
+  document.getElementById('pay-modal-bg').classList.add('show');
+}
+function closePayModal() { document.getElementById('pay-modal-bg').classList.remove('show'); }
+
+// ── Submit ──────────────────────────────────────
+async function submitOrder() {
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'กำลังส่ง...'; btn.disabled = true;
+  const items = cart.map(c => ({name: c.displayName, qty: c.qty, price: c.price}));
+  const total = cart.reduce((s,c) => s + c.price*c.qty, 0);
+  const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
+  currentOrderNo = generateOrderNo();
+  try {
+    await fetch(SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo, message: '#' + currentOrderNo})
+    });
+    orderRound++;
+    orderHistory.push({round: orderRound, time: now, items: cart.map(c=>({...c})), total, orderNo: currentOrderNo});
+    cart = [];
+    document.querySelectorAll('.qty-num').forEach(el => el.textContent = '0');
+    updateCartBar();
+    closeOrderModal();
+    document.getElementById('success-order-no').textContent = 'เลขออเดอร์ #' + currentOrderNo;
+    document.getElementById('success-screen').classList.add('show');
+  } catch(e) { alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); }
+  btn.textContent = '✅ ส่งออเดอร์ไปครัว'; btn.disabled = false;
+}
+
+async function submitPayment() {
+  const btn = document.getElementById('pay-confirm-btn');
+  btn.textContent = 'กำลังแจ้ง...'; btn.disabled = true;
+  const gt = grandTotal();
+  const summaryLines = orderHistory.map(r =>
+    `รอบ ${r.round}: ` + r.items.map(i => `${i.displayName} x${i.qty}`).join(', ') + ` (${r.total.toLocaleString()}฿)`
+  ).join('\n');
+  try {
+    await fetch(SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines})
+    });
+    closePayModal();
+    document.getElementById('pay-success-screen').classList.add('show');
+  } catch(e) { alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); }
+  btn.textContent = '🔔 แจ้งพนักงานมาเก็บเงิน'; btn.disabled = false;
+}
+
+// ── Tab Switch ──────────────────────────────────────
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
