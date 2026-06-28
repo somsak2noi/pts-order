@@ -195,12 +195,12 @@ function generateOrderNo() {
   const h = String(now.getHours()).padStart(2,'0');
   const mi = String(now.getMinutes()).padStart(2,'0');
   const s = String(now.getSeconds()).padStart(2,'0');
-  return yyyy + mm + dd + ':' + h + mi + s;
+  return 'ORD-' + yyyy + mm + dd + '-' + h + mi + s;
 }
 
 let currentOrderNo = '';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzaHfaqw8D2G8qC7cMfmjWJjI1fab7EzG0nYH94NI5nS06ghfLl-Z_vKP94uR9SNU9v/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHSlLH6SQaEMHk_HIkWPK4Uot8ZsDak7plo5JIbeGZPcC-UMLgiXJC4QSj-LLzTCZ0BA/exec';
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
 document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
