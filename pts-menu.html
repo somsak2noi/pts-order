@@ -200,7 +200,7 @@ function generateOrderNo() {
 
 let currentOrderNo = '';
 
-const SCRIPT_URL = 'https://workflow.noicmidev.site/webhook/pts-order';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6yWRu5VXg0kUWq9ONKh9g7DcAYaqgXIqQZpujt-6mKAileSvGFU9asGikhR3-DGj9Qw/exec';
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
 document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
@@ -821,7 +821,7 @@ async function submitPayment() {
     await fetch(SCRIPT_URL, {
       method:'POST', mode:'no-cors',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines})
+      body: JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo})
     });
     closePayModal();
     document.getElementById('pay-success-screen').classList.add('show');
