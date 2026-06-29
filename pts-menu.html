@@ -198,9 +198,26 @@ function generateOrderNo() {
   return 'ORD-' + yyyy + mm + dd + '-' + h + mi + s;
 }
 
+// สร้าง sessionId ครั้งเดียวตอนเปิดหน้า เก็บไว้ใน sessionStorage
+function getSessionId() {
+  let sid = sessionStorage.getItem('pts_session');
+  if (!sid) {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth()+1).padStart(2,'0');
+    const dd = String(now.getDate()).padStart(2,'0');
+    const h = String(now.getHours()).padStart(2,'0');
+    const mi = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    sid = 'SID-' + yyyy + mm + dd + '-' + tableNum + '-' + h + mi + s;
+    sessionStorage.setItem('pts_session', sid);
+  }
+  return sid;
+}
+
 let currentOrderNo = '';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycMJU2Xz5TV4q3PkU24fLjuTHFDEmwqrfe_DdatqEugSSMZMmFJ20_L4SVdXwy_X0ggg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxFXlqLS9GIC1egYCKjeRIPOoJA9IhBwkwburQxMStVsL_QK3jj8q4bDr2QEfxO9k02A/exec';
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
 document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
@@ -793,7 +810,7 @@ async function submitOrder() {
   const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
   currentOrderNo = generateOrderNo();
   try {
-    const orderData = encodeURIComponent(JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo}));
+    const orderData = encodeURIComponent(JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo, sessionId: getSessionId()}));
     await fetch(SCRIPT_URL + '?data=' + orderData);
     orderRound++;
     orderHistory.push({round: orderRound, time: now, items: cart.map(c=>({...c})), total, orderNo: currentOrderNo});
@@ -815,7 +832,7 @@ async function submitPayment() {
     `รอบ ${r.round}: ` + r.items.map(i => `${i.displayName} x${i.qty}`).join(', ') + ` (${r.total.toLocaleString()}฿)`
   ).join('\n');
   try {
-    const payData = encodeURIComponent(JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo}));
+    const payData = encodeURIComponent(JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo, sessionId: getSessionId()}));
     await fetch(SCRIPT_URL + '?data=' + payData);
     closePayModal();
     document.getElementById('pay-success-screen').classList.add('show');
