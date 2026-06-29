@@ -218,7 +218,7 @@ function getSessionId() {
 
 let currentOrderNo = '';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9NMTDeQOdw4zn9tjkGqhaEBjGEnh0mKYNxEQdyQap3wfU9nSlrtV4_9WRLznYSEZtAw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUSl9qgj4zVPNTzYttSIIB7o_X3mIQ98FOdKxXDQdHo2AogkdgwtT3JnZKikYMi2l6BA/exec';
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
 document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
@@ -245,9 +245,33 @@ async function initSession() {
 }
 
 async function loadPrevOrders() {
-  // แสดง badge ว่ามีรายการก่อนหน้า
-  const badge = document.getElementById('prev-orders-badge');
-  if (badge) badge.style.display = 'block';
+  try {
+    // ดึงรายการที่สั่งไปแล้วจาก Sheets
+    const res = await fetch(SCRIPT_URL + '?action=getOrders&sessionId=' + SESSION_ID);
+    const data = await res.json();
+    if (data.orders && data.orders.length > 0) {
+      // ใส่รายการเดิมลงใน orderHistory
+      orderHistory = [{
+        round: 1,
+        time: '(รอบก่อนหน้า)',
+        orderNo: data.orders[0].orderNo,
+        items: data.orders.map(o => ({
+          displayName: o.name,
+          qty: o.qty,
+          price: o.price
+        })),
+        total: data.orders.reduce((s, o) => s + o.price * o.qty, 0)
+      }];
+      orderRound = 1;
+      // แสดง badge
+      const badge = document.getElementById('prev-orders-badge');
+      if (badge) badge.style.display = 'inline-block';
+    }
+  } catch(err) {
+    console.log('loadPrevOrders error:', err);
+    const badge = document.getElementById('prev-orders-badge');
+    if (badge) badge.style.display = 'inline-block';
+  }
 }
 
 // เรียก initSession ตอนโหลดหน้า
