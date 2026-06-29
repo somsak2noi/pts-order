@@ -81,6 +81,7 @@ body{font-family:'Sarabun',sans-serif;background:#111;color:#eee;min-height:100v
   <h1>🥩 พุงโตสเต็ก</h1>
   <p>เปิดทุกวัน 15:00–22:00 น. | Last order 21:30</p>
   <span class="table-badge" id="table-label">โต๊ะ ...</span>
+  <div id="prev-orders-badge" style="display:none;background:#ef5350;color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;margin-top:6px;display:inline-block">⚠️ มีรายการค้างจากรอบก่อน กรุณาตรวจสอบ</div>
   <div class="hdr-btns">
     <button class="hdr-btn" onclick="showHistory()">📋 รายการที่สั่ง</button>
     <button class="hdr-btn pay" onclick="showPayModal()">💳 เรียกเก็บเงิน</button>
@@ -217,10 +218,40 @@ function getSessionId() {
 
 let currentOrderNo = '';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxFXlqLS9GIC1egYCKjeRIPOoJA9IhBwkwburQxMStVsL_QK3jj8q4bDr2QEfxO9k02A/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqhlAbJ9M-upLv9SDi063C2VF_GG292WqUcD-2krOQcZjbDHYMRjEVNi4bJTuMS0qQbQ/exec';
 const params = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
 document.getElementById('table-label').textContent = 'โต๊ะ ' + tableNum;
+
+// sessionId จาก Apps Script
+let SESSION_ID = '';
+
+async function initSession() {
+  try {
+    const res = await fetch(SCRIPT_URL + '?action=getSession&table=' + tableNum);
+    const data = await res.json();
+    SESSION_ID = data.sessionId;
+    Logger.log && Logger.log('Session: ' + SESSION_ID + ' status: ' + data.status);
+    if (data.status === 'existing') {
+      await loadPrevOrders();
+    }
+  } catch(err) {
+    // fallback ถ้า fetch ไม่ได้ใช้ timestamp แทน
+    const now = new Date();
+    SESSION_ID = 'T' + tableNum + '-' + now.getFullYear() +
+      String(now.getMonth()+1).padStart(2,'0') +
+      String(now.getDate()).padStart(2,'0') + '-fallback';
+  }
+}
+
+async function loadPrevOrders() {
+  // แสดง badge ว่ามีรายการก่อนหน้า
+  const badge = document.getElementById('prev-orders-badge');
+  if (badge) badge.style.display = 'block';
+}
+
+// เรียก initSession ตอนโหลดหน้า
+initSession();
 
 // ── Steak Options ──────────────────────────────────────
 const SAUCES = ['ไม่เลือกซอสใดๆ','พริกไทยดำ','บาร์บีคิว','ครีมสลัด','เกลวี่','เทริยากิ','ซอสแจ่ว +10฿'];
@@ -810,7 +841,7 @@ async function submitOrder() {
   const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
   currentOrderNo = generateOrderNo();
   try {
-    const orderData = encodeURIComponent(JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo, sessionId: getSessionId()}));
+    const orderData = encodeURIComponent(JSON.stringify({table: tableNum, items, total, type:'order', orderNo: currentOrderNo, sessionId: SESSION_ID}));
     await fetch(SCRIPT_URL + '?data=' + orderData);
     orderRound++;
     orderHistory.push({round: orderRound, time: now, items: cart.map(c=>({...c})), total, orderNo: currentOrderNo});
@@ -832,7 +863,7 @@ async function submitPayment() {
     `รอบ ${r.round}: ` + r.items.map(i => `${i.displayName} x${i.qty}`).join(', ') + ` (${r.total.toLocaleString()}฿)`
   ).join('\n');
   try {
-    const payData = encodeURIComponent(JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo, sessionId: getSessionId()}));
+    const payData = encodeURIComponent(JSON.stringify({table: tableNum, total: gt, type:'payment', message: summaryLines, orderNo: currentOrderNo, sessionId: SESSION_ID}));
     await fetch(SCRIPT_URL + '?data=' + payData);
     closePayModal();
     document.getElementById('pay-success-screen').classList.add('show');
